@@ -1,12 +1,10 @@
 const fs = require('fs');
 
-
-function  numZeroPasses(instructions) {
+function numZeroPasses(instructions) {
     let dialRotation = 50;
-    // console.log("Dial position: ", dialRotation);
     let numZeroes = 0;
     for(let instruction of instructions) {
-        // console.log(instruction);
+        const preInstructionPosition = dialRotation;
         let direction = instruction[0];
         let newRotation = instruction.substring(1);
         if(direction == 'L') newRotation = -newRotation;
@@ -23,18 +21,16 @@ function  numZeroPasses(instructions) {
         }
         else if(dialRotation < 0) {
             dialRotation = 100 + dialRotation;
-            numZeroes++;
+            if(preInstructionPosition != 0) numZeroes++;
         }
         // Edge case, it landed on 0 without going past.
-        else if(dialRotation == 0 && numFullRotations == 0) {
+        else if(dialRotation == 0) {
             numZeroes++;
         }
 
         // check num zero passes due to full rotations;
-        
+
         numZeroes += numFullRotations;
-        // console.log("New Dial position: ", dialRotation);
-        // console.log("Num zeroes: ", numZeroes);
     }
 
     return numZeroes;
